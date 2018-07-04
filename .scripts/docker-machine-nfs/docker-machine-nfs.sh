@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # The MIT License (MIT)
 # Copyright © 2015 Toni Van de Voorde <toni.vdv@gmail.com>
@@ -132,13 +132,13 @@ isPropertyNotSet()
 # @info:    Sets the default properties
 setPropDefaults()
 {
-  prop_machine_name=
+  prop_machine_name=""
   prop_shared_folders=()
-  prop_nfs_config="-alldirs -mapall="$(id -u):$(id -g)
+  prop_nfs_config=" -alldirs -mapall="$(id -u):$(id -g)
   prop_mount_options="noacl,async"
   prop_force_configuration_nfs=false
   prop_use_ip_range=false
-  prop_timeout=
+  prop_timeout=""
 }
 
 # @info:    Parses and validates the CLI arguments
@@ -369,7 +369,7 @@ configureNFS()
   for shared_folder in "${prop_shared_folders[@]}"
   do
     # Add new exports
-    exports="${exports}$shared_folder $machine_ip $prop_nfs_config\n"
+    exports="${exports}$shared_folder $machine_ip$prop_nfs_config\n"
   done
 
   # Write new exports block ending
@@ -377,7 +377,7 @@ configureNFS()
   #Export to file
   printf "$exports" | sudo tee /etc/exports >/dev/null
 
-  sudo nfsd restart ; sleep 2 && sudo nfsd checkexports
+  sudo service nfs-kernel-server restart ; sleep 2
 
   echoSuccess "\t\t\t\t\t\tOK"
 }

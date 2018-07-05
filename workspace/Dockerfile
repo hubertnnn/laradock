@@ -187,6 +187,20 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 ;fi
 
 ###########################################################################
+# GHOSTSCRIPT:
+###########################################################################
+
+ARG INSTALL_GHOSTSCRIPT=false
+
+RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
+    # Install the ghostscript extension
+    # for PDF editing
+    apt-get install -y \
+    poppler-utils \
+    ghostscript \
+;fi
+
+###########################################################################
 # LDAP:
 ###########################################################################
 

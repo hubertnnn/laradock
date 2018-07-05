@@ -187,6 +187,48 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 ;fi
 
 ###########################################################################
+# GHOSTSCRIPT:
+###########################################################################
+
+ARG INSTALL_GHOSTSCRIPT=false
+
+RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
+    # Install the ghostscript extension
+    # for PDF editing
+    apt-get install -y \
+    poppler-utils \
+    ghostscript \
+;fi
+
+###########################################################################
+# Opcache:
+###########################################################################
+
+ARG INSTALL_OPCACHE=false
+
+RUN if [ ${INSTALL_OPCACHE} = true ]; then \
+    apt-get install -y php${PHP_VERSION}-opcache \
+;fi
+
+# Copy opcache configration
+COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
+###########################################################################
+# GMP (GNU Multiple Precision):
+###########################################################################
+
+ARG INSTALL_GMP=false
+
+RUN if [ ${INSTALL_GMP} = true ]; then \
+    # Install the GMP extension
+    apt-get install -y libgmp-dev && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
+    ;fi && \
+    apt-get install -y php${PHP_VERSION}-gmp \
+;fi
+
+###########################################################################
 # LDAP:
 ###########################################################################
 

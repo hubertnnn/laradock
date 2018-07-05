@@ -201,6 +201,19 @@ RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
 ;fi
 
 ###########################################################################
+# Opcache:
+###########################################################################
+
+ARG INSTALL_OPCACHE=false
+
+RUN if [ ${INSTALL_OPCACHE} = true ]; then \
+    apt-get install -y php${PHP_VERSION}-opcache \
+;fi
+
+# Copy opcache configration
+COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
+###########################################################################
 # LDAP:
 ###########################################################################
 

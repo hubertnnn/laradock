@@ -102,6 +102,7 @@ services:
           - BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ${DATA_PATH_HOST}/workspace/status:/root/.workspace/status
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
@@ -109,6 +110,8 @@ services:
       tty: true
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+        - COMMAND_INSTALL=${WORKSPACE_COMMAND_INSTALL}
+        - COMMAND_BOOTSTRAP=${WORKSPACE_COMMAND_BOOTSTRAP}
       networks:
         - frontend
         - backend

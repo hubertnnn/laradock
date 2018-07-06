@@ -869,3 +869,8 @@ RUN apt-get clean && \
 
 # Set default work directory
 WORKDIR /var/www
+
+# Setup bootstrap script
+COPY ./99_bootstrap.sh /etc/my_init.d/99_bootstrap.sh
+RUN chmod +x /etc/my_init.d/99_bootstrap.sh
+RUN echo /root > /etc/container_environment/HOME
